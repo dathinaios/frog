@@ -67,7 +67,7 @@ module Frog
     def choose_item_for_removal
       self.list
       id = ask("Type an ID to remove an item\n")
-      id
+      return id
     end
 
     def scan(dir)
@@ -83,7 +83,7 @@ module Frog
           todo_paths[basename] = path
         end
       end
-      todo_paths
+      return todo_paths
     end
 
     def scan_and_inform(directory)
@@ -92,7 +92,7 @@ module Frog
       puts "Found " + scan_result.size.to_s + " files in " + directory + ":"
       puts scan_result
       puts "\n"
-      scan_result
+      return scan_result
     end
 
     def print_todo(project)
