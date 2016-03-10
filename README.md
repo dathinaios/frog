@@ -6,7 +6,7 @@ The second important concept is that frog has a current state corresponding to a
 
 ## Installation
 
-Make sure ruby gems are installed on your machine and do;
+Make sure ruby is installed on your machine and do:
 
     $ gem install frog
 
