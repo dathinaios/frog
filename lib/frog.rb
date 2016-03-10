@@ -64,12 +64,6 @@ module Frog
 
     private
 
-    def choose_item_for_removal
-      self.list
-      id = ask("Type an ID to remove an item\n")
-      return id
-    end
-
     def scan(dir)
       Dir.glob("#{dir}/**/todo.txt")
     end
@@ -86,15 +80,6 @@ module Frog
       return todo_paths
     end
 
-    def scan_and_inform(directory)
-      puts "searching..."
-      scan_result = scan(Dir.home + "/" + directory)
-      puts "Found " + scan_result.size.to_s + " files in " + directory + ":"
-      puts scan_result
-      print_new_line
-      return scan_result
-    end
-
     def print_todo(project)
       print_project_name(project)
       table_rows = [["ID", "Item"], ["--", "----"]]
@@ -106,18 +91,24 @@ module Frog
       print_new_line
     end
 
-    def create_and_populate_frog_files
-      FrogConfig.create_system_files
-      FrogConfig.write_config({
-        'files' => scan_all(options[:dirs]),
-        'editor' => options[:editor]
-      })
+    def print_projects
+      paths = FrogConfig.read_config_files
+      table_rows = [["Project", "File"], ["-------", "----"]]
+      paths.each_pair { |project, path|
+        table_rows.push([project,path])
+      }
+      print_table(table_rows)
+      return paths
     end
 
     def choose_state
       states = self.projects
       print_divider
       current = ask("Type project name to set state:\n")
+      attempt_switch_to_state(current)
+    end
+
+    def attempt_switch_to_state(state)
       if states.key?(current)
         puts "Switched to project: #{current}"
         FrogState.write_state({
@@ -128,16 +119,6 @@ module Frog
         puts "That's not a project! Give it another try.\n"
         choose_state
       end
-    end
-
-    def print_projects
-      paths = FrogConfig.read_config_files
-      table_rows = [["Project", "File"], ["-------", "----"]]
-      paths.each_pair { |project, path|
-        table_rows.push([project,path])
-      }
-      print_table(table_rows)
-      return paths
     end
 
     def edit_project(project)
@@ -155,6 +136,29 @@ module Frog
       puts "'" + item + "'  has been added to " + project
     end
       
+    def choose_item_for_removal
+      self.list
+      id = ask("Type an ID to remove an item\n")
+      return id
+    end
+
+    def scan_and_inform(directory)
+      puts "searching..."
+      scan_result = scan(Dir.home + "/" + directory)
+      puts "Found " + scan_result.size.to_s + " files in " + directory + ":"
+      puts scan_result
+      print_new_line
+      return scan_result
+    end
+
+    def create_and_populate_frog_files
+      FrogConfig.create_system_files
+      FrogConfig.write_config({
+        'files' => scan_all(options[:dirs]),
+        'editor' => options[:editor]
+      })
+    end
+
     def remove_item_for_id(id)
       project = FrogState.read_state('current')
       data = FrogConfig.read_todo_file(project)
