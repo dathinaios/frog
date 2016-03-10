@@ -15,13 +15,11 @@ module Frog
       :type => :array, 
       :default => ["Develop", "Documents", "Dropbox"]
 
-    method_option :editor, :desc=> "Choose your editor command for opening todo files",
-      :default => "gvim --remote-silent "
-
     def init
       if initialize?
         create_and_populate_frog_files
         choose_state
+        choose_editor_command
       end
     end
 
@@ -43,6 +41,11 @@ module Frog
       FrogState.write_state({
         'current' => project
       })
+    end
+
+    desc "editor 'COMMAND'", "choose a command line command to open your editor of choice"
+    def editor(command)
+      write_editor_command(command)
     end
 
     desc "edit [PROJECT]", "Edit current or supplied PROJECT in your EDITOR (see frog help init)"
@@ -108,6 +111,14 @@ module Frog
       attempt_switch_to_state(current)
     end
 
+    def write_editor_command(command_string)
+      if FrogConfig.write_config_editor(command_string)
+        say "the new command is: " + command_string
+      else
+        say "oops.. try again."
+      end
+    end
+
     def attempt_switch_to_state(state)
       if states.key?(current)
         puts "Switched to project: #{current}"
@@ -155,7 +166,6 @@ module Frog
       FrogConfig.create_system_files
       FrogConfig.write_config({
         'files' => scan_all(options[:dirs]),
-        'editor' => options[:editor]
       })
     end
 

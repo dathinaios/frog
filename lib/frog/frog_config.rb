@@ -36,6 +36,14 @@ class FrogConfig
     config['editor']
   end
 
+  def self.write_config_editor(editor_command)
+    editor_command = editor_command + " "
+    data = YAML.load_file(CONFIG_PATH)
+    data['editor'] = editor_command
+    converted_data = YAML.dump data
+    File.write(CONFIG_PATH, converted_data)
+  end
+
   def self.read_todo_file(project)
     path = read_config_files[project]
     return YAML.load_file(path)
