@@ -1,0 +1,7 @@
+---
+TODO:
+- Read_config methods DRY
+- By default it should not allow adding and removing until the user accepts a warning
+  That their files will be modified
+- The editor command needs to be persistant and not changing every time we do init
+- change classes that are not instantiated into modules
