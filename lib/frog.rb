@@ -121,7 +121,7 @@ module Frog
 
     def write_editor_command(command_string)
       if FrogConfig.write_config_editor(command_string)
-        say "the new command is: " + command_string
+        say "The editor command is: '" + command_string + "'"
       else
         say "oops.. try again."
       end
@@ -130,11 +130,11 @@ module Frog
     def attempt_switch_to_state(newState)
       projects = self.projects
       if projects.key?(newState)
-        puts "Switched to project: #{current}"
+        puts "Switched to project: #{newState}"
         FrogState.write_state({
-          'current' => current
+          'current' => newState
         })
-        return current
+        return newState
       else
         puts "That's not a project! Give it another try.\n"
         choose_state
@@ -205,7 +205,7 @@ module Frog
     end
 
     def initialize?
-      yes?("\nPLEASE READ: \n\nFrog -ribbit- will scan your system for todo.txt files. When modifications (such as adding or removing todo items) are applied to the files the YAML data will be reformatted and any info that has not been parsed as data (such as YAML comments and empty lines) will be removed.  If you are not sure that you want that do 'frog init --dirs exampleDir' to try it out with a test file in exampleDir/todo.txt first.\n\n -ribbit- \n\nShould I proceed (y/n)?", "\033[33m")
+      yes?("\nPLEASE READ: \n\nFrog will scan your system for todo.txt files. When modifications (such as adding or removing todo items) are applied to the files the YAML data will be reformatted and any info that has not been parsed as data (such as YAML comments and empty lines) will be removed.  If you are not sure that you want that do 'frog init --dirs exampleDir' to try it out with a test file in exampleDir/todo.txt first.\n\n -ribbit- \n\nShould I proceed (y/n)?", "\033[33m")
     end
 
 
