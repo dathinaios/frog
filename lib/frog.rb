@@ -144,7 +144,7 @@ module Frog
       data = FrogConfig.read_todo_file(project)
       data['TODO'].push(item)
       FrogConfig.write_todo_file(project, data)
-      puts "'" + item + "'  has been added to " + project
+      puts "Added succesfully to: " + project
     end
       
     def choose_item_for_removal
