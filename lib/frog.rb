@@ -105,10 +105,18 @@ module Frog
     end
 
     def choose_state
-      states = self.projects
       print_divider
-      current = ask("Type project name to set state:\n")
-      attempt_switch_to_state(current)
+      newState = ask("Type project name to set state:\n")
+      attempt_switch_to_state(newState )
+    end
+
+    def choose_editor_command
+      command = ask("Choose an editor command (empty will use vim):\n")
+      unless command.empty? 
+        write_editor_command(command)
+      else
+        write_editor_command("vim")
+      end
     end
 
     def write_editor_command(command_string)
@@ -119,8 +127,9 @@ module Frog
       end
     end
 
-    def attempt_switch_to_state(state)
-      if states.key?(current)
+    def attempt_switch_to_state(newState)
+      projects = self.projects
+      if projects.key?(newState)
         puts "Switched to project: #{current}"
         FrogState.write_state({
           'current' => current
