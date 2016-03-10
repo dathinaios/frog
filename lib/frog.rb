@@ -48,9 +48,7 @@ module Frog
     desc "edit [PROJECT]", "Edit current or supplied PROJECT in your EDITOR (see frog help init)"
     def edit(project=nil)
       project || project = FrogState.read_state('current')
-      todo = FrogConfig.read_config_files[project]
-      editor = FrogConfig.read_config_editor
-      exec editor + todo
+      edit_project(project)
     end
 
     desc "add 'TODO'", "Add a todo item to the current list (use quotes)", :type => 'string'
@@ -162,5 +160,13 @@ module Frog
       print_table(table_rows)
       return paths
     end
+
+    def edit_project(project)
+      todo = FrogConfig.read_config_files[project]
+      editor = FrogConfig.read_config_editor
+      exec editor + todo
+    end
+
+
   end
 end
