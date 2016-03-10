@@ -10,12 +10,14 @@ class FrogConfig
 
   def self.create_system_files
     unless File.directory?(FROG_DIR)
+      puts 'Creating .frog directory'
       FileUtils.mkdir_p(FROG_DIR)
     end
     # unless File.exists?(CACHE_PATH)
     #   FileUtils.touch(CACHE_PATH)
     # end
     unless File.exists?(CONFIG_PATH)
+      puts 'Creating .frog/config.yaml'
       FileUtils.touch(CONFIG_PATH)
     end
   end
