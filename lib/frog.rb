@@ -96,7 +96,7 @@ module Frog
     end
 
     def print_todo(project)
-      print_project_name
+      print_project_name(project)
       table_rows = [["ID", "Item"], ["--", "----"]]
       todo = YAML.load_file(FrogConfig.read_config_files[project])
       todo['TODO'].each_with_index do |item, index|
@@ -172,7 +172,7 @@ module Frog
       puts "\n"
     end
 
-    def print_project_name
+    def print_project_name(project)
       puts "Project: " + project
       puts "."*(project.length + 9)
     end
