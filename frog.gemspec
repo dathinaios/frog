@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.files       = ["lib/frog.rb", "lib/frog/frog_config.rb", "lib/frog/frog_state.rb", "lib/frog/frog_helpers.rb"]
+  # spec.files       = ["lib/frog.rb", "lib/frog/frog_config.rb", "lib/frog/frog_state.rb", "lib/frog/frog_helpers.rb"]
 
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rake", "~> 10.0"

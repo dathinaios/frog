@@ -2,4 +2,4 @@
 
 require 'frog'
 
-Frog.start(ARGV)
+Frog::Main.start(ARGV)
