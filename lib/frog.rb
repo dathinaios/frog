@@ -19,8 +19,10 @@ module Frog
       :default => "gvim --remote-silent "
 
     def init
-      create_and_populate_frog_files
-      choose_state
+      if yes? set_color("\nPLEASE READ: \n\nFrog -ribbit- will scan your system for todo.txt files. When modifications (such as adding or removing todo items) are applied to the files the YAML data will be reformatted and any info that has not been parsed as data (such as YAML comments and empty lines) will be removed.  If you are not sure that you want that do 'frog init --dirs exampleDir' to try it out with a test file in exampleDir/todo.txt first.\n\n Should I proceed (y/n)?", Color.red)
+        create_and_populate_frog_files
+        choose_state
+      end
     end
 
     desc "list", "list todos of current project or of a supplied one"
@@ -63,8 +65,7 @@ module Frog
       data = FrogConfig.read_todo_file(project)
       data['TODO'].push(item)
       FrogConfig.write_todo_file(project, data)
-      puts "\n" + item + " has been added to " + project
-      list
+      puts "'" + item + "'  has been added to " + project
     end
 
     desc "remove ID", "remove the todo item with ID. No argument allows interactive choice from a list"
@@ -72,10 +73,12 @@ module Frog
       id || id = choose_item_for_removal
       project = FrogState.read_state('current')
       data = FrogConfig.read_todo_file(project)
-      data['TODO'].delete_at(id.to_i)
-      FrogConfig.write_todo_file(project, data)
-      puts "The item with ID " + id + " has been removed from project " + project
-      list
+      content = data['TODO'][id.to_i]
+      if yes? "Are you sure you want to delete '" + content + "' (y/n)?"
+        data['TODO'].delete_at(id.to_i)
+        FrogConfig.write_todo_file(project, data)
+        puts "The item '" + content + "' has been removed from project " + project
+      end
     end
 
     private
@@ -112,14 +115,15 @@ module Frog
     end
 
     def print_todo(project)
-      puts "\nProject: " + project
-      puts "="*(project.length + 9)
+      puts "Project: " + project
+      puts "."*(project.length + 9)
       table_rows = [["ID", "Item"], ["--", "----"]]
       todo = YAML.load_file(FrogConfig.read_config_files[project])
       todo['TODO'].each_with_index do |item, index|
         table_rows.push([index, item])
       end
       print_table(table_rows)
+      puts "\n"
     end
 
     def print_divider
@@ -145,7 +149,7 @@ module Frog
         })
         return current
       else
-        puts "\nThat's not a project! Give it another try."
+        puts "That's not a project! Give it another try.\n"
         choose_state
       end
     end

@@ -1,7 +1,7 @@
 ---
 TODO:
-- By default it should not allow adding and removing until the user accepts a warning
-  That their files will be modified
 - The editor command needs to be persistant and not changing every time we do init
 - Change classes that are not instantiated into modules
 - Move all logic out of the Frog::Main class which should act as only interface
+- Log completed task into a file with project task keys so that we can retrieve our
+  progress through time and undo completed item
