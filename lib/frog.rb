@@ -33,13 +33,8 @@ module Frog
 
     desc "projects", "List all projects and the paths to their todo"
     def projects
-      files = FrogConfig.read_config_files
-      table_rows = [["Project", "File"], ["-------", "----"]]
-      files.each_pair { |project, path|
-        table_rows.push([project,path])
-      }
-      print_table(table_rows)
-      return files
+      paths = print_projects
+      return paths
     end
 
     desc "switch PROJECT", "Switch to a different project. No argument allows interactive choice from a list"
@@ -158,5 +153,14 @@ module Frog
       yes?("\nPLEASE READ: \n\nFrog -ribbit- will scan your system for todo.txt files. When modifications (such as adding or removing todo items) are applied to the files the YAML data will be reformatted and any info that has not been parsed as data (such as YAML comments and empty lines) will be removed.  If you are not sure that you want that do 'frog init --dirs exampleDir' to try it out with a test file in exampleDir/todo.txt first.\n\n -ribbit- \n\nShould I proceed (y/n)?", "\033[33m")
     end
 
+    def print_projects
+      paths = FrogConfig.read_config_files
+      table_rows = [["Project", "File"], ["-------", "----"]]
+      paths.each_pair { |project, path|
+        table_rows.push([project,path])
+      }
+      print_table(table_rows)
+      return paths
+    end
   end
 end
