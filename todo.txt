@@ -1,7 +1,10 @@
 ---
 TODO:
-- The editor command needs to be persistant and not changing every time we do init
+- Move all logic out of the Frog::Main class which should act as interface only
+- The editor command needs to be persistent and not changing every time we do init. 
+  In general there is need for a better configuration workflow.
 - Change classes that are not instantiated into modules
-- Move all logic out of the Frog::Main class which should act as only interface
 - Log completed task into a file with project task keys so that we can retrieve our
   progress through time and undo completed item
+- method for creation of new todo files with the right formatting.
+- better indentation when listing items
