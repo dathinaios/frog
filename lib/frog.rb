@@ -51,27 +51,15 @@ module Frog
       edit_project(project)
     end
 
-    desc "add 'TODO'", "Add a todo item to the current list (use quotes)", :type => 'string'
+    desc "add 'TODO'", "Add a todo item to the current list (use quotes)"
     def add(item)
-      item = item.capitalize
-      project = FrogState.read_state('current')
-      data = FrogConfig.read_todo_file(project)
-      data['TODO'].push(item)
-      FrogConfig.write_todo_file(project, data)
-      puts "'" + item + "'  has been added to " + project
+      add_item(item)
     end
 
     desc "remove ID", "Remove the todo item with ID. No argument allows interactive choice from a list"
     def remove(id = nil)
       id || id = choose_item_for_removal
-      project = FrogState.read_state('current')
-      data = FrogConfig.read_todo_file(project)
-      content = data['TODO'][id.to_i]
-      if yes? "Are you sure you want to delete '" + content + "' (y/n)?"
-        data['TODO'].delete_at(id.to_i)
-        FrogConfig.write_todo_file(project, data)
-        puts "The item '" + content + "' has been removed from project " + project
-      end
+      remove_item_for_id(id)
     end
 
     private
@@ -167,6 +155,26 @@ module Frog
       exec editor + todo
     end
 
+    def add_item(item)
+      item = item.capitalize
+      project = FrogState.read_state('current')
+      data = FrogConfig.read_todo_file(project)
+      data['TODO'].push(item)
+      FrogConfig.write_todo_file(project, data)
+      puts "'" + item + "'  has been added to " + project
+    end
+      
+    def remove_item_for_id(id)
+      project = FrogState.read_state('current')
+      data = FrogConfig.read_todo_file(project)
+      content = data['TODO'][id.to_i]
+      if yes? "Are you sure you want to delete '" + content + "' (y/n)?"
+        data['TODO'].delete_at(id.to_i)
+        FrogConfig.write_todo_file(project, data)
+        puts "The item '" + content + "' has been removed from project " + project
+      end
+    end
 
   end
+
 end
