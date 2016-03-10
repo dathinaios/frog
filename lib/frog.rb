@@ -10,12 +10,12 @@ module Frog
   class Main < Thor
     include Thor::Actions
 
-    desc "init [--dirs --editor]", "initialise frog and scan your Documents, Develop and Dropbox for todo.txt files"
-    method_option :dirs, :desc=> "supply custom search directories [--dirs dir1 dir2 dir3 etc.]",
+    desc "init [--dirs --editor]", "Initialise frog and scan your Documents, Develop and Dropbox for todo.txt files"
+    method_option :dirs, :desc=> "Supply custom search directories",
       :type => :array, 
       :default => ["Develop", "Documents", "Dropbox"]
 
-    method_option :editor, :desc=> "choose your editor command for opening todo files. Default is gvim --remote-silent ",
+    method_option :editor, :desc=> "Choose your editor command for opening todo files",
       :default => "gvim --remote-silent "
 
     def init
@@ -25,13 +25,13 @@ module Frog
       end
     end
 
-    desc "list", "list todos of current project or of a supplied one"
+    desc "list", "List todos of current project or of a supplied one"
     def list(project=nil)
       project || project = FrogState.read_state('current')
       print_todo(project)
     end
 
-    desc "projects", "list all projects and the paths to their todo"
+    desc "projects", "List all projects and the paths to their todo"
     def projects
       files = FrogConfig.read_config_files
       table_rows = [["Project", "File"], ["-------", "----"]]
@@ -42,7 +42,7 @@ module Frog
       return files
     end
 
-    desc "switch PROJECT", "switch to a different project. No argument allows interactive choice from a list"
+    desc "switch PROJECT", "Switch to a different project. No argument allows interactive choice from a list"
     def switch(project = nil)
       project || project = choose_state
       FrogState.write_state({
@@ -50,7 +50,7 @@ module Frog
       })
     end
 
-    desc "edit PROJECT", "edit current or supplied TODO in your editor (defaults to vim)"
+    desc "edit [PROJECT]", "Edit current or supplied PROJECT in your EDITOR (see frog help init)"
     def edit(project=nil)
       project || project = FrogState.read_state('current')
       todo = FrogConfig.read_config_files[project]
@@ -58,7 +58,7 @@ module Frog
       exec editor + todo
     end
 
-    desc "add 'TODO'", "add a todo item to the current list (use quotes)", :type => 'string'
+    desc "add 'TODO'", "Add a todo item to the current list (use quotes)", :type => 'string'
     def add(item)
       item = item.capitalize
       project = FrogState.read_state('current')
@@ -68,7 +68,7 @@ module Frog
       puts "'" + item + "'  has been added to " + project
     end
 
-    desc "remove ID", "remove the todo item with ID. No argument allows interactive choice from a list"
+    desc "remove ID", "Remove the todo item with ID. No argument allows interactive choice from a list"
     def remove(id = nil)
       id || id = choose_item_for_removal
       project = FrogState.read_state('current')
