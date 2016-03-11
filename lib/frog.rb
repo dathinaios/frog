@@ -1,4 +1,7 @@
 require 'thor'
+    def attempt_switch_to_state(newState)
+    end
+
 require 'fileutils'
 require 'yaml'
 require 'frog/version'
@@ -105,9 +108,19 @@ module Frog
     end
 
     def choose_state
+      projects = self.projects
       print_divider
       newState = ask("Type project name to set state:\n")
-      attempt_switch_to_state(newState )
+      if projects.key?(newState)
+        puts "Switched to project: #{newState}"
+        FrogState.write_state({
+          'current' => newState
+        })
+        return newState
+      else
+        puts "That's not a project! Give it another try.\n"
+        choose_state
+      end
     end
 
     def choose_editor_command
@@ -124,20 +137,6 @@ module Frog
         say "The editor command is: '" + command_string + "'"
       else
         say "oops.. try again."
-      end
-    end
-
-    def attempt_switch_to_state(newState)
-      projects = self.projects
-      if projects.key?(newState)
-        puts "Switched to project: #{newState}"
-        FrogState.write_state({
-          'current' => newState
-        })
-        return newState
-      else
-        puts "That's not a project! Give it another try.\n"
-        choose_state
       end
     end
 
