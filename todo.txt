@@ -10,3 +10,6 @@ TODO:
 - Make sure that the command return correct exit codes and that do not result in errors
   when the process is interupted
 - Change classes that are not instantiated into modules
+- In choose state the project method returns the paths. I should be able to get the
+  paths without printing and vise versa
+- Add method to refresh for new or deleted files
