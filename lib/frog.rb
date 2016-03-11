@@ -151,9 +151,11 @@ module Frog
       item = item.capitalize
       project = FrogState.read_state('current')
       data = FrogConfig.read_todo_file(project)
+      id = data.count
       data['TODO'].push(item)
       FrogConfig.write_todo_file(project, data)
       puts "Added succesfully to: " + project
+      return id
     end
       
     def choose_item_for_removal
