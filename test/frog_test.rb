@@ -1,5 +1,15 @@
 require 'test_helper'
 
+# override yes for testing user input
+module Frog
+  class Interface
+    private
+    def yes?(whatever)
+      return true
+    end
+  end
+end
+
 class FrogTest < Minitest::Test
 
   def setup
@@ -11,16 +21,17 @@ class FrogTest < Minitest::Test
     refute_nil ::Frog::VERSION
   end
 
-  # def test_add
-  #   out = capture_io{Frog::Interface.start(['add', 'this was added by test'])}.join ''
-  #   assert_match /Added succesfully to:/, out
-  #   assert_match @data['TODO'].last, 'This was added by test'
-  # end
+  def test_add
+    out = capture_io{Frog::Interface.start(['add', 'this was added by test'])}.join ''
+    assert_match /Added succesfully to:/, out
+    assert_match @data['TODO'].last, 'This was added by test'
+  end
 
-  # def test_remove
-  #   last_addition_index = @data['TODO'].count - 1
-  #   out = capture_io{Frog::Interface.start(['remove', last_addition_index])}.join ''
-  # end
+  def test_remove
+    last_addition_index = @data['TODO'].count - 1
+    out = capture_io{Frog::Interface.start(['remove', last_addition_index])}.join ''
+    assert_match /'This was added by test' has been removed/, out
+  end
 
   # any_instance_of(Frog::Interface) do |cli|
   #   mock(cli).yes?(anything){ true }
