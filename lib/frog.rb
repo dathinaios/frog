@@ -1,7 +1,4 @@
 require 'thor'
-    def attempt_switch_to_state(newState)
-    end
-
 require 'fileutils'
 require 'yaml'
 require 'frog/version'
