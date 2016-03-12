@@ -17,7 +17,7 @@ module Frog
 
     def init
       if initialize?
-        create_and_populate_frog_files
+        FrogConfig.create_and_populate_frog_files
         choose_state
         choose_editor_command
       end
@@ -66,22 +66,6 @@ module Frog
     end
 
     private
-
-    def scan(dir)
-      Dir.glob("#{dir}/**/todo.txt")
-    end
-
-    def scan_all(dirs)
-      todo_paths = {}
-      dirs.each do |directory|
-        scan_result = scan_and_inform(directory)
-        scan_result.each do |path|
-          basename = File.dirname(path).split('/').last.snake_case
-          todo_paths[basename] = path
-        end
-      end
-      return todo_paths
-    end
 
     def print_todo(project)
       print_project_name(project)
@@ -158,22 +142,6 @@ module Frog
       self.list
       id = ask("Type an ID to remove an item\n")
       return id
-    end
-
-    def scan_and_inform(directory)
-      puts "searching..."
-      scan_result = scan(Dir.home + "/" + directory)
-      puts "Found " + scan_result.size.to_s + " files in " + directory + ":"
-      puts scan_result
-      print_new_line
-      return scan_result
-    end
-
-    def create_and_populate_frog_files
-      FrogConfig.create_system_files
-      FrogConfig.write_config({
-        'files' => scan_all(options[:dirs]),
-      })
     end
 
     def remove_item_for_id(id)

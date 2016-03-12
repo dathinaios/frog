@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'yaml'
 
-class FrogConfig
+module FrogConfig
 
   HOME = Dir.home
   FROG_DIR = HOME + "/.frog"
@@ -55,6 +55,38 @@ class FrogConfig
     path = read_config_files[project]
     converted_data = YAML.dump newData
     File.write(path, converted_data)
+  end
+
+  def self.scan(dir)
+    Dir.glob("#{dir}/**/todo.txt")
+  end
+
+  def self.scan_all(dirs)
+    todo_paths = {}
+    dirs.each do |directory|
+      scan_result = scan_and_inform(directory)
+      scan_result.each do |path|
+        basename = File.dirname(path).split('/').last.snake_case
+        todo_paths[basename] = path
+      end
+    end
+    return todo_paths
+  end
+
+  def self.scan_and_inform(directory)
+    puts "searching..."
+    scan_result = scan(Dir.home + "/" + directory)
+    puts "Found " + scan_result.size.to_s + " files in " + directory + ":"
+    puts scan_result
+    puts "\n"
+    return scan_result
+  end
+
+  def self.create_and_populate_frog_files
+    create_system_files
+    write_config({
+      'files' => scan_all(options[:dirs]),
+    })
   end
 
 end
