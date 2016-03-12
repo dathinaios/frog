@@ -17,7 +17,7 @@ module Frog
 
     def init
       if initialize?
-        FrogConfig.create_and_populate_frog_files
+        FrogConfig.create_and_populate_frog_files(options[:dirs])
         choose_state
         choose_editor_command
       end

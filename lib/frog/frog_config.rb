@@ -82,10 +82,10 @@ module FrogConfig
     return scan_result
   end
 
-  def self.create_and_populate_frog_files
+  def self.create_and_populate_frog_files(dirs)
     create_system_files
     write_config({
-      'files' => scan_all(options[:dirs]),
+      'files' => scan_all(dirs),
     })
   end
 
