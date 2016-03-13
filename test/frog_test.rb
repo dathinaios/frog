@@ -21,21 +21,17 @@ class FrogTest < Minitest::Test
     refute_nil ::Frog::VERSION
   end
 
-  def test_add
+  def test_that_it_adds_todo
     out = capture_io{Frog::Interface.start(['add', 'this was added by test'])}.join ''
     assert_match /Added succesfully to:/, out
     assert_match @data['TODO'].last, 'This was added by test'
   end
 
-  def test_remove
+  def test_that_it_removes_todo
     last_addition_index = @data['TODO'].count - 1
     out = capture_io{Frog::Interface.start(['remove', last_addition_index])}.join ''
     assert_match /'This was added by test' has been removed/, out
   end
-
-  # any_instance_of(Frog::Interface) do |cli|
-  #   mock(cli).yes?(anything){ true }
-  # end
 
 end
 
