@@ -75,7 +75,7 @@ module FrogConfig
 
   def self.scan_and_inform(directory)
     puts "searching..."
-    scan_result = scan(Dir.home + "/" + directory)
+    scan_result = scan(File.expand_path(directory))
     puts "Found " + scan_result.size.to_s + " files in " + directory + ":"
     puts scan_result
     puts "\n"

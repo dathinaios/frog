@@ -13,7 +13,7 @@ module Frog
     desc "init [--dirs --editor]", "Initialise frog and scan your Documents, Develop and Dropbox for todo.txt files"
     method_option :dirs, :desc=> "Supply custom search directories",
       :type => :array, 
-      :default => ["Develop", "Documents", "Dropbox"]
+      :default => ["~/Develop", "~/Documents", "~/Dropbox"]
 
     def init
       if initialize?
