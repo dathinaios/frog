@@ -33,5 +33,11 @@ class FrogTest < Minitest::Test
     assert_match /'This was added by test' has been removed/, out
   end
 
+  def test_that_user_can_switch_project
+    Frog::Interface.start(['switch', 'switch_test'])
+    out = capture_io{Frog::Interface.start(['list'])}.join ''
+    assert_match /This was added by switch_test/, out
+  end
+
 end
 
