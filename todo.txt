@@ -1,12 +1,13 @@
 ---
 TODO:
-- Add tests for public methods
-- Change scand_and_inform to need an explicit directory and change the defaults to use tilde
-- Add method to refresh for new or deleted files or make init more clever. At the moment if I call init again I lose my editor command.
+- Make the id's unique
+- Add method to refresh for new or deleted files or make init more clever. At the
+  moment if I call init again I lose my editor command.
 - Create an alias for edit to e as it clashes with the far less used editor
 - Have frog random [PROJECT] return a random todo if it is not initialised
 - Overview command frog world [PROJECT]
-- Log completed task into a file with project task keys so that we can retrieve our progress through time and undo completed item
+- Log completed task into a file with project task keys so that we can retrieve our
+  progress through time and undo completed item
 - Method for creation of new todo files with the right formatting.
 - Better indentation when listing items
 - Change read_config_files method to paths
