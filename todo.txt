@@ -1,6 +1,8 @@
 ---
 TODO:
-- Make the id's unique
+- Better indentation when listing items
+- Make the ids unique
+- Provide feedback when switching to a project with an argument
 - Add method to refresh for new or deleted files or make init more clever. At the
   moment if I call init again I lose my editor command.
 - Create an alias for edit to e as it clashes with the far less used editor
@@ -9,7 +11,6 @@ TODO:
 - Log completed task into a file with project task keys so that we can retrieve our
   progress through time and undo completed item
 - Method for creation of new todo files with the right formatting.
-- Better indentation when listing items
 - Change read_config_files method to paths
 - Make sure that the command return correct exit codes and that do not result in errors
   when the process is interupted
@@ -19,6 +20,7 @@ TODO:
 - Instead of just todo the utility accepts any yaml key but just ignores it. when
   there is a key note it could actually use it in the list command. or maybe the list
   command could get anything and then it is up to the user to define what he is looking
-  for. although i think "frog note" is a good command to have
+  for. Although i think "frog note" is a good command to have
 - Have an idea field and then an option to call an idea at random and then choose
   to pass it in a todo or delete it
+- Allow for list and opening of pinboard unread items bookmarks or general bookmarks
